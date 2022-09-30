@@ -146,7 +146,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 				else
 					spriteType = SpriteType.EnemyShipA1;
 
-				column.add(new EnemyShip((SEPARATION_DISTANCE 
+				column.add(new EnemyShip((SEPARATION_DISTANCE
 						* this.enemyShips.indexOf(column))
 								+ positionX, (SEPARATION_DISTANCE * i)
 								+ positionY, spriteType));
@@ -202,6 +202,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		int movementY = 0;
 		double remainingProportion = (double) this.shipCount
 				/ (this.nShipsHigh * this.nShipsWide);
+		/*여기는 적이 죽으면 죽을수록 적들의 속도가 빨라지는 부분임. 밸런스 조정을 위해
+				일정 속도 이상 빨라지면 더 이상 빨라지지 않도록 태윤이가 조치를 취할 예정임.*/
 		this.movementSpeed = (int) (Math.pow(remainingProportion, 2)
 				* this.baseSpeed);
 		this.movementSpeed += MINIMUM_SPEED;
@@ -353,10 +355,14 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			for (int i = 0; i < column.size(); i++)
 				if (column.get(i).equals(destroyedShip)) {
 					column.get(i).destroy();
+					/*여기를 지우고 실행해보면 해당 적이 죽었다고 뜨지만, 이미지는 사라지지 않고, 계속해서 맞출 수 있다. 하지만, 적을 맞출 때마다
+					* destroyed로 인식하기 때문에 적의 속도는 점점 빨라진다. ex)10마리의 적이 생성되었을 때, 화면상의 적은 그대로지만
+					* 10번 맞추면 다음 레벨로 넘어간다. */
 					this.logger.info("Destroyed ship in ("
 							+ this.enemyShips.indexOf(column) + "," + i + ")");
 				}
-
+		/*공격할 적을 고르는 부분. 공격해야하는 적이 만약 부숴진 상태면 부숴지지 않은 배가 공격을 하게 되어있음. 여기부분을 건들면 총을 두번 쏘는
+		* 적을 구현할 수도 있어보임. 처음에 바로 공격할 수 있는 상태의 배를 찾은 것이 아니라면의 조건을 따로 걸어주거나, 두번호출하는 방식? */
 		// Updates the list of ships that can shoot the player.
 		if (this.shooters.contains(destroyedShip)) {
 			int destroyedShipIndex = this.shooters.indexOf(destroyedShip);

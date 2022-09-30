@@ -19,6 +19,8 @@ public class Ship extends Entity {
 	private static final int SHOOTING_INTERVAL = 750;
 	/** Speed of the bullets shot by the ship. */
 	private static final int BULLET_SPEED = -6;
+	/*처음 배의 속도를 조절할 수 있는 부분임. 매판 랜덤으로 속도가 정해지면 게임을 하는데도 덜 지루할 것. 아이템 팀이 속도 추가 아이템을 만든다면
+	* 배의 해당 속도를 받아오는 지점에서 해결하라고 해야함.*/
 	/** Movement of the ship for each unit of time. */
 	private static final int SPEED = 2;
 	

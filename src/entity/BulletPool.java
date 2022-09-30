@@ -34,6 +34,7 @@ public final class BulletPool {
 	 *            on direction - positive is down.
 	 * @return Requested bullet.
 	 */
+	/*여기 아래에 있는 speed를 건들면 총알 속도가 바뀝니다.*/
 	public static Bullet getBullet(final int positionX,
 			final int positionY, final int speed) {
 		Bullet bullet;
