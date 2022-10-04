@@ -202,8 +202,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		int movementY = 0;
 		double remainingProportion = (double) this.shipCount
 				/ (this.nShipsHigh * this.nShipsWide);
-		/*여기는 적이 죽으면 죽을수록 적들의 속도가 빨라지는 부분임. 밸런스 조정을 위해
-				일정 속도 이상 빨라지면 더 이상 빨라지지 않도록 태윤이가 조치를 취할 예정임.*/
+		/*적들의 속도는 movementSpeed가 10에 도달하면 최고속력이 된다. 여기서 더이상 변하지 않는다.
+		* 남아있는 적들의 수에 대해서 속력이 변함. 딱히 손댈 필요가 없는 부분이었음.*/
 		this.movementSpeed = (int) (Math.pow(remainingProportion, 2)
 				* this.baseSpeed);
 		this.movementSpeed += MINIMUM_SPEED;
