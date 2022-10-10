@@ -271,7 +271,7 @@ public class GameScreen extends Screen {
 	private void manageCollisions() {
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets)
-			if (bullet.getSpeed() > 0) {
+			if (bullet.getSpeed() > 0) {//enemy bullet
 				if (checkCollision(bullet, this.ship) && !this.levelFinished) {
 					recyclable.add(bullet);
 					if (!this.ship.isDestroyed()) {
@@ -281,7 +281,7 @@ public class GameScreen extends Screen {
 								+ " lives remaining.");
 					}
 				}
-			} else {
+			} else {//player bullet
 				for (EnemyShip enemyShip : this.enemyShipFormation)
 					if (!enemyShip.isDestroyed()
 							&& checkCollision(bullet, enemyShip)) {

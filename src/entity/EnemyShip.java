@@ -22,6 +22,8 @@ public class EnemyShip extends Entity {
 	private static final int C_TYPE_POINTS = 30;
 	/** Point value of a bonus enemy. */
 	private static final int BONUS_TYPE_POINTS = 100;
+	/** Point value of a type C enemy. */
+	private static final int BOSS_TYPE_POINTS = 200;
 
 	/** Cooldown between sprite changes. */
 	private Cooldown animationCooldown;
@@ -49,21 +51,28 @@ public class EnemyShip extends Entity {
 		this.isDestroyed = false;
 
 		switch (this.spriteType) {
-		case EnemyShipA1:
-		case EnemyShipA2:
-			this.pointValue = A_TYPE_POINTS;
-			break;
-		case EnemyShipB1:
-		case EnemyShipB2:
-			this.pointValue = B_TYPE_POINTS;
-			break;
-		case EnemyShipC1:
-		case EnemyShipC2:
-			this.pointValue = C_TYPE_POINTS;
-			break;
-		default:
-			this.pointValue = 0;
-			break;
+			case EnemyShipA1:
+			case EnemyShipA2:
+				this.pointValue = A_TYPE_POINTS;
+				break;
+			case EnemyShipB1:
+			case EnemyShipB2:
+				this.pointValue = B_TYPE_POINTS;
+				break;
+			case EnemyShipC1:
+			case EnemyShipC2:
+				this.pointValue = C_TYPE_POINTS;
+				break;
+			case BossShip1:
+				break;
+			case BossShip2:
+				break;
+			case BossShip3:
+				this.pointValue = BOSS_TYPE_POINTS;
+				break;
+			default:
+				this.pointValue = 0;
+				break;
 		}
 	}
 
@@ -109,26 +118,31 @@ public class EnemyShip extends Entity {
 			this.animationCooldown.reset();
 
 			switch (this.spriteType) {
-			case EnemyShipA1:
-				this.spriteType = SpriteType.EnemyShipA2;
-				break;
-			case EnemyShipA2:
-				this.spriteType = SpriteType.EnemyShipA1;
-				break;
-			case EnemyShipB1:
-				this.spriteType = SpriteType.EnemyShipB2;
-				break;
-			case EnemyShipB2:
-				this.spriteType = SpriteType.EnemyShipB1;
-				break;
-			case EnemyShipC1:
-				this.spriteType = SpriteType.EnemyShipC2;
-				break;
-			case EnemyShipC2:
-				this.spriteType = SpriteType.EnemyShipC1;
-				break;
-			default:
-				break;
+				case EnemyShipA1:
+					this.spriteType = SpriteType.EnemyShipA2;
+					break;
+				case EnemyShipA2:
+					this.spriteType = SpriteType.EnemyShipA1;
+					break;
+				case EnemyShipB1:
+					this.spriteType = SpriteType.EnemyShipB2;
+					break;
+				case EnemyShipB2:
+					this.spriteType = SpriteType.EnemyShipB1;
+					break;
+				case EnemyShipC1:
+					this.spriteType = SpriteType.EnemyShipC2;
+					break;
+				case EnemyShipC2:
+					this.spriteType = SpriteType.EnemyShipC1;
+					break;
+//				case BossShip1:
+//					this.spriteType = spriteType.BossShip2;
+//					break;
+//				case BossShip2:
+//					this.spriteType = spriteType.BossShip1;
+				default:
+					break;
 			}
 		}
 	}
@@ -139,6 +153,14 @@ public class EnemyShip extends Entity {
 	public final void destroy() {
 		this.isDestroyed = true;
 		this.spriteType = SpriteType.Explosion;
+	}
+
+	public final void b1_destroy() {
+		this.isDestroyed = true;
+		this.spriteType = SpriteType.BossShip2;
+	}public final void b2_destroy() {
+		this.isDestroyed = true;
+		this.spriteType = SpriteType.BossShip3;
 	}
 
 	/**

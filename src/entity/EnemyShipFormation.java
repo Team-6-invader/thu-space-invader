@@ -139,7 +139,9 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		for (List<EnemyShip> column : this.enemyShips) {
 			for (int i = 0; i < this.nShipsHigh; i++) {
-				if (i / (float) this.nShipsHigh < PROPORTION_C)
+				if(i == 0)
+					spriteType = SpriteType.BossShip1;
+				else if (i / (float) this.nShipsHigh < PROPORTION_C)
 					spriteType = SpriteType.EnemyShipC1;
 				else if (i / (float) this.nShipsHigh < PROPORTION_B
 						+ PROPORTION_C)
@@ -147,10 +149,10 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 				else
 					spriteType = SpriteType.EnemyShipA1;
 
-				column.add(new EnemyShip((SEPARATION_DISTANCE 
+				column.add(new EnemyShip((SEPARATION_DISTANCE
 						* this.enemyShips.indexOf(column))
-								+ positionX, (SEPARATION_DISTANCE * i)
-								+ positionY, spriteType));
+						+ positionX,(SEPARATION_DISTANCE * i)
+						+ positionY, spriteType));
 				this.shipCount++;
 			}
 		}
@@ -348,7 +350,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 */
 	public final void shoot(final Set<Bullet> bullets) {
 		// For now, only ships in the bottom row are able to shoot.
-		int index = (int) (Math.random() * this.shooters.size());
+		//int index = (int) (Math.random() * this.shooters.size());
+		int index = 1;
 		EnemyShip shooter = this.shooters.get(index);
 
 		if (this.shootingCooldown.checkFinished()) {
@@ -397,9 +400,20 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		for (List<EnemyShip> column : this.enemyShips)
 			for (int i = 0; i < column.size(); i++)
 				if (column.get(i).equals(destroyedShip)) {
-					column.get(i).destroy();
-					this.logger.info("Destroyed ship in ("
-							+ this.enemyShips.indexOf(column) + "," + i + ")");
+					if(shipCount > this.nShipsWide){//5개 넘을 때
+						if(i != 0) {//보스줄(맨 윗줄)이 아니면 파괴
+							column.get(i).destroy();
+							this.logger.info("Destroyed ship in ("
+									+ this.enemyShips.indexOf(column) + "," + i + ")");
+							this.shipCount--;
+						}
+					}
+					else{//5개 이하일 때
+						column.get(i).destroy();
+						this.logger.info("Destroyed ship in ("
+								+ this.enemyShips.indexOf(column) + "," + i + ")");
+						this.shipCount--;
+					}
 				}
 
 		// Updates the list of ships that can shoot the player.
@@ -425,7 +439,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			}
 		}
 
-		this.shipCount--;
+		System.out.println(shipCount);
 	}
 
 	/**
